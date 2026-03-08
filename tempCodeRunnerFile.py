@@ -1,0 +1,2 @@
+ALCHEMY_TRACK_MODIFICATION']=False
+db=SQLAlchemy(app)
