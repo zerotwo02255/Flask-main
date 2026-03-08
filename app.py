@@ -6,11 +6,8 @@ from datetime import datetime
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
-
-with app.app_context():
-    db.create_all()
 
 class jeff(db.Model):
     sno=db.Column(db.Integer,primary_key=True)
@@ -19,10 +16,18 @@ class jeff(db.Model):
     date_created=db.Column(db.DateTime,default=datetime.utcnow)
 
 
-def __repr__(self)-> str:
-    return f"{self.sno}-{self.title}"
+    def __repr__(self) -> str:
+        return f"{self.sno}  -   {self.title}"
+    
+    
+with app.app_context():
+    db.create_all()
+
 @app.route('/')
 def hello_world():
+    obj =jeff(title="first to do",desc="indosss")
+    db.session.add(obj)
+    db.session.commit()
     return render_template('ankit.html')
    # return 'hello world!'
 
