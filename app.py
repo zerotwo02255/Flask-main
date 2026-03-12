@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -19,15 +19,20 @@ class Jeff(db.Model):
     def __repr__(self):
         return f"{self.sno} - {self.title}"
 
+
 with app.app_context():
     db.create_all()
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def hello_world():
-    obj = Jeff(title="first to do", desc="indosss")
-    db.session.add(obj)
-    db.session.commit()
+    if request.method == "POST":
+        title = request.form["title"]
+        desc = request.form["desc"]
+
+        obj = Jeff(title=title, desc=desc)
+        db.session.add(obj)
+        db.session.commit()
     alljeff = Jeff.query.all()
     return render_template("ankit.html", alljeff=alljeff)
 
