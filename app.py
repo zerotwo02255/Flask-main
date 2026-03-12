@@ -1,44 +1,43 @@
-from flask import Flask,render_template
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///instance/site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
-db=SQLAlchemy(app)
+app = Flask(__name__, instance_relative_config=True)
 
-class jeff(db.Model):
-    sno=db.Column(db.Integer,primary_key=True)
-    title=db.Column(db.String(500),nullable=False)
-    desc=db.Column(db.String(500),nullable=False)
-    date_created=db.Column(db.DateTime,default=datetime.utcnow)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
 
 
-    def __repr__(self) -> str:
-        return f"{self.sno}  -   {self.title}"
-    
-    
+class Jeff(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(500), nullable=False)
+    desc = db.Column(db.String(500), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"{self.sno} - {self.title}"
+
+with app.app_context():
+    db.create_all()
 
 
-@app.route('/')
+@app.route("/")
 def hello_world():
-    obj =jeff(title="first to do",desc="indosss")
+    obj = Jeff(title="first to do", desc="indosss")
     db.session.add(obj)
     db.session.commit()
-    alljeff=jeff.query.all()
-    return render_template('ankit.html',alljeff=alljeff)
-   # return 'hello world!'
+    alljeff = Jeff.query.all()
+    return render_template("ankit.html", alljeff=alljeff)
 
 
-@app.route('/there')
+@app.route("/there")
 def there():
-    alljeff=jeff.query.all()
+    alljeff = Jeff.query.all()
     print(alljeff)
-    return 'hello there'
+    return "hello there"
 
-    
+
 if __name__ == "__main__":
-    app.run(debug=True,port =9000)
-    
-    
-    
+    app.run(debug=True, port=9000)
