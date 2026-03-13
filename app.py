@@ -19,7 +19,6 @@ class Jeff(db.Model):
     def __repr__(self):
         return f"{self.sno} - {self.title}"
 
-
 with app.app_context():
     db.create_all()
 
