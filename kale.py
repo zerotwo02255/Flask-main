@@ -7,6 +7,9 @@ class jeff:
         self.type=name
         print(name,age)
         
+    def __str__(self):
+       return f"{self.age}"
+        
         
         
     def kale(self,a,b):
@@ -19,5 +22,5 @@ class jeff:
     
 
 obj1=jeff("raand",30)
-print(obj1.kale(1,2))
-
+print(obj1)
+x=obj1.kale(1,2)
