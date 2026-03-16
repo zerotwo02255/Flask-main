@@ -12,48 +12,57 @@
 <body>
 
   <form action="/" method="POST">
-  <div class="mb-3">
-    <label for="title" class="form-label">title</label>
-    <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp">
-  </div>
-  <div class="mb-3">
-    <label for="desc" class="form-label">Password</label>
-    <input type="password" class="form-control"  name="desc" id="desc">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <div class="mb-3">
+      <label for="title" class="form-label">title</label>
+      <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+      <label for="desc" class="form-label">Password</label>
+      <input type="password" class="form-control" name="desc" id="desc">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">description</th>
-        <th>Date Created</th>
-      </tr>
-    </thead>
-    <tbody>
+<tbody>
+{% if alljeff|length==0 %}
+norecord
 
-      {% for obj in alljeff %}
+{% else %}
+<table class="table">
+<thead>
+<tr>
+<th scope="col">sno</th>
+<th scope="col">Title</th>
+<th scope="col">description</th>
+<th>Date Created</th>
+<th scope="col">Action</th>
+</tr>
+</thead>
+<tbody>
 
-      <tr>
+{% for obj in alljeff %}
 
+<tr>
+<th scope="row">{{ loop.index }}</th>
+<td>{{ obj.title }}</td>
+<td>{{ obj.desc }}</td>
+<td>{{ obj.date_created }}</td>
+<td>
+<a href="/Update/{{obj.sno}}" class="btn btn-outline-danger btn-sm mx-2">SAVE</a>
+<a href="/Delete/{{obj.sno}}" class="btn btn-outline-dark btn-sm mx-2">DELETE</a>
+</td>
+</tr>
 
-        <th scope="row">{{ obj.sno }}</th>
-        <td>{{ obj.title }}</td>
-        <td>{{ obj.desc }}</td>
-        <td>{{ obj.date_created }}</td>
-      </tr>
+{% endfor %}
 
-      {% endfor %}
+</tbody>
+</table>
 
-    </tbody>
-
-  </table>
+{% endif %}
 </body>
 
 </html>

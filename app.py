@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -42,6 +42,21 @@ def there():
     print(alljeff)
     return "hello there"
 
+
+@app.route("/Update/<int:sno>")
+def Update(sno):
+    
+    alljeff = Jeff.query.all()
+    print(alljeff)
+    return "hello there"
+
+
+@app.route("/Delete/<int:sno>")
+def delete(sno):
+    obj= Jeff.query.filter_by(sno=sno).first()
+    db.session.delete(obj)
+    db.session.commit()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True, port=9000)
